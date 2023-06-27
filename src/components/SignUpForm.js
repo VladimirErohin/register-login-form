@@ -15,12 +15,12 @@ import * as yup from 'yup';
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://vpolprod.com/">
+            {' © '}
+            {new Date().getFullYear()}
+            {' '}
+            <Link color="inherit" href="https://vpolprod.com/" style={{textDecoration:'none'}}>
                 vpolprod.com
             </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
         </Typography>
     );
 }
@@ -46,6 +46,8 @@ export default function SignUpForm() {
     } = useForm({
         // resolver: yupResolver(schema),
     });
+
+
 
     const handleSubmitForm = (event) => {
         // event.preventDefault();
@@ -79,44 +81,52 @@ export default function SignUpForm() {
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit(handleSubmitForm)}  sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
+                                {/*<Grid item xs={12} sm={6}>  // это когда два поля в одной строке(каждое поле занимает половину строки)*/}
                                 <TextField
                                     autoComplete="given-name"
                                     name="firstName"
                                     required
                                     fullWidth
                                     id="firstName"
-                                    label="First Name"
+                                    label="Имя"
                                     autoFocus
 
-                                    {...register('firstName', {required: "поле обязательно для заполнения"})}
+                                    {...register('firstName', {
+                                        required: "поле обязательно для заполнения, неболее 10 букв",
+                                        maxLength : {
+                                            value: 10,
+                                            message: ''
+                                        }
+                                        },
+                                    )}
 
                                     //error
                                     // id="outlined-error-helper-text"
                                     // label="Error"
                                     //defaultValue="Hello World"
-                                   // helperText="Incorrect entry."
-                                    helperText={errors?.firstName &&  "поле обязательно для заполнения" }
+                                    helperText={errors?.firstName &&  "поле обязательно для заполнения, неболее 10 букв" }
                                     />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
+                            {/*<Grid item xs={12} sm={6}>*/}
+                            {/*    <TextField*/}
+                            {/*        required*/}
+                            {/*        fullWidth*/}
+                            {/*        id="lastName"*/}
+                            {/*        label="Фамилия"*/}
+                            {/*        //label="Last Name"*/}
+                            {/*        name="lastName"*/}
+                            {/*        autoComplete="family-name"*/}
 
-                                    {...register('lastName', {required: true})}
-                                />
-                            </Grid>
+                            {/*        {...register('lastName', {required: true})}*/}
+                            {/*    />*/}
+                            {/*</Grid>*/}
                             <Grid item xs={12}>
                                 <TextField
                                     required
                                     fullWidth
                                     id="email"
-                                    label="Email Address"
+                                    label="адрес эл.почты"
                                     name="email"
                                     autoComplete="email"
 
@@ -128,7 +138,7 @@ export default function SignUpForm() {
                                     required
                                     fullWidth
                                     name="password"
-                                    label="Password"
+                                    label="пароль"
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
@@ -144,7 +154,7 @@ export default function SignUpForm() {
                             sx={{ mt: 3, mb: 2 }}
 
                             type="submit"
-                            // type="submit" disabled={!isValid}
+                            //type="submit" disabled={!isValid}
                         >
                             ЗАРЕГИСТРИРОВАТЬСЯ
                             {/*Sign Up*/}
