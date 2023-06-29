@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 
 import {useForm} from 'react-hook-form';
 import * as yup from 'yup';
@@ -18,7 +18,7 @@ function Copyright(props) {
             {' © '}
             {new Date().getFullYear()}
             {' '}
-            <Link color="inherit" href="https://vpolprod.com/" style={{textDecoration:'none'}}>
+            <Link color="inherit" href="https://vpolprod.com/" style={{textDecoration: 'none'}}>
                 vpolprod.com
             </Link>{' '}
         </Typography>
@@ -48,7 +48,6 @@ export default function SignUpForm() {
     });
 
 
-
     const handleSubmitForm = (event) => {
         // event.preventDefault();
         // const data = new FormData(event.currentTarget);
@@ -66,7 +65,7 @@ export default function SignUpForm() {
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
+                <CssBaseline/>
                 <Box
                     sx={{
                         marginTop: 8,
@@ -77,9 +76,8 @@ export default function SignUpForm() {
                 >
                     <Typography component="h1" variant="h5">
                         РЕГИСТРАЦИЯ
-                        {/*Sign up*/}
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit(handleSubmitForm)}  sx={{ mt: 3 }}>
+                    <Box component="form" noValidate onSubmit={handleSubmit(handleSubmitForm)} sx={{mt: 3}}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 {/*<Grid item xs={12} sm={6}>  // это когда два поля в одной строке(каждое поле занимает половину строки)*/}
@@ -93,20 +91,23 @@ export default function SignUpForm() {
                                     autoFocus
 
                                     {...register('firstName', {
-                                        required: "поле обязательно для заполнения, неболее 10 букв",
-                                        maxLength : {
-                                            value: 10,
-                                            message: ''
-                                        }
+                                            required: {
+                                                value: true,
+                                                message:"поле обязательно для заполнения",
+                                            },
+                                            maxLength: {
+                                                value: 10,
+                                                message: 'не более 10 букв'
+                                            }
                                         },
                                     )}
 
-                                    //error
+                                    //error //дает стиль красного цвета для подсказак при ошибке
                                     // id="outlined-error-helper-text"
                                     // label="Error"
                                     //defaultValue="Hello World"
-                                    helperText={errors?.firstName &&  "поле обязательно для заполнения, неболее 10 букв" }
-                                    />
+                                    helperText={errors?.firstName?.message}
+                                />
                             </Grid>
                             {/*<Grid item xs={12} sm={6}>*/}
                             {/*    <TextField*/}
@@ -130,7 +131,26 @@ export default function SignUpForm() {
                                     name="email"
                                     autoComplete="email"
 
-                                    {...register('email', {required: "поле обязательно для заполнения"})}
+                                    {...register('email', {
+                                        required:  {
+                                            value: true,
+                                            message:"поле обязательно для заполнения",
+                                        },
+                                        pattern: {
+                                            value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                                            message: "введите валидный email формат",
+                                        },
+                                        validate:{
+                                        notAdmin: (fieldValue)=>{
+                                        return(
+                                        fieldValue !=="admin@example.com" || "Введите другой адрес электронной почты"
+                                        );
+                                    },
+                                        }
+                                    })}
+
+                                    //error
+                                    helperText={errors?.email?.message}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -143,7 +163,15 @@ export default function SignUpForm() {
                                     id="password"
                                     autoComplete="new-password"
 
-                                    {...register('password', {required: true})}
+                                    {...register('password', {
+                                        required:{
+                                        value: true,
+                                        message:"поле обязательно для заполнения",
+                                    },
+                                    })}
+
+                                    //error
+                                    helperText={errors?.email?.message}
                                 />
                             </Grid>
                         </Grid>
@@ -151,25 +179,22 @@ export default function SignUpForm() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
 
-                            type="submit"
                             //type="submit" disabled={!isValid}
                         >
                             ЗАРЕГИСТРИРОВАТЬСЯ
-                            {/*Sign Up*/}
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link href="#" variant="body2">
                                     У Вас есть аккаунт? Логин
-                                   {/*Already have an account?Sign in*/}
                                 </Link>
                             </Grid>
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
+                <Copyright sx={{mt: 5}}/>
             </Container>
         </ThemeProvider>
     );
