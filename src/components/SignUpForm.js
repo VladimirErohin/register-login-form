@@ -82,7 +82,7 @@ export default function SignUpForm() {
                             <Grid item xs={12}>
                                 {/*<Grid item xs={12} sm={6}>  // это когда два поля в одной строке(каждое поле занимает половину строки)*/}
                                 <TextField
-                                    autoComplete="given-name"
+                                    //autoComplete="given-name"
                                     name="firstName"
                                     required
                                     fullWidth
@@ -98,7 +98,11 @@ export default function SignUpForm() {
                                             maxLength: {
                                                 value: 10,
                                                 message: 'не более 10 букв'
-                                            }
+                                            },
+                                        pattern: {
+                                            value:/^[A-Za-zА-Яа-яЁё]+$/,
+                                            message: "вводите только буквы латиницы/кириллицы",
+                                        },
                                         },
                                     )}
 
@@ -161,17 +165,30 @@ export default function SignUpForm() {
                                     label="пароль"
                                     type="password"
                                     id="password"
-                                    autoComplete="new-password"
+                                    //autoComplete="new-password"
 
                                     {...register('password', {
                                         required:{
                                         value: true,
                                         message:"поле обязательно для заполнения",
                                     },
+                                        pattern: {
+                                            value:/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g,
+                                            //    /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/,
+                                            //re.test('qwerty'); // false
+                                            // re.test('qwertyuiop'); // false
+                                            // re.test('abcABC123$'); // true
+                                            // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,}.$/,
+                                            // (?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$
+                                            // /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g
+                                            // Регулярное выражение для пароля от 6 символов с использованием цифр,
+                                            // спец. символов, латиницы, наличием строчных и прописных символов
+                                            message: "cтрочные и прописные латинские буквы, цифры, спецсимволы, минимум 8 символов",
+                                        },
                                     })}
 
                                     //error
-                                    helperText={errors?.email?.message}
+                                    helperText={errors?.password?.message}
                                 />
                             </Grid>
                         </Grid>
