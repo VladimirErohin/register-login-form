@@ -1,4 +1,3 @@
-import './App.css';
 import Form from "./components/Form";
 import SignIn from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
