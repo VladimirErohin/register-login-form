@@ -4,10 +4,7 @@ class UserController {
     async createUser(req, res) {
         try {
             const {id, name, email, password, role} = req.body;
-            //const {name, email} = req.body;
             const user = await User.create({id, name, email, password, role})
-            //console.log(name, email);
-            //console.log('user', user)
             return res.json(user)
             //return res.json('ok')
         } catch (e) {
@@ -16,21 +13,29 @@ class UserController {
     }
 
     async getUsers(req, res) {
-        const users = await User.findAll();
-        return res.json(users);
+        try{
+            const users = await User.findAll();
+            return res.json(users);
+        }catch (e){
+            console.log(e.message)
+        }
+
     }
 
     async getUser(req, res) {
-        const id = req.params.id;
-        const remoteUser = await User.findOne({where: {id}});
-        res.json(remoteUser);
+        try{
+            const id = req.params.id;
+            const remoteUser = await User.findOne({where: {id}});
+            res.json(remoteUser);
+        }catch (e) {
+           console.log(e.message )
+        }
     }
 
     async updateUser(req, res) {
         try{
             const {id, name, email} = req.body;
             const user = await User.update({
-                    //id: id,
                     name:name,
                     email:email,
                 },
