@@ -24,8 +24,8 @@ const start = async () => {
         console.log('Connection has been established successfully.');
 
         app.listen(PORT, () => console.log(`server started on post ${PORT}`))
-    } catch (e) {
-        console.log('Невозможно выполнить подключение к БД: ', e)
+    } catch (error) {
+        console.log(`Невозможно выполнить подключение к БД: ,${error.message}`)
     }
 }
 
