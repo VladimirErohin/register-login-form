@@ -1,21 +1,24 @@
 const User = require('../models/model');
 const {validationResult} = require('express-validator');
+const bcrypt = require('bcrypt');
 
 class UserController {
     async createUser(req, res, next) {
         try {
-            //const errors = validationResult(req);
+            // //const errors = validationResult(req);
+            //
+            // const {id, name, email, password, role} = req.body;
+            //
+            // const candidate = await User.findOne({where: {email}})
+            // if (candidate) {
+            //     console.log("errors --- ", "Пользователь с таким email уже существует")
+            //     return res.json("Пользователь с таким email уже существует")
+            // }
+            // const user = await User.create({id, name, email, password, role})
+            // return res.json(user)
+            // //return res.json('ok')
 
-            const {id, name, email, password, role} = req.body;
-
-            const candidate = await User.findOne({where: {email}})
-            if (candidate) {
-                console.log("errors --- ", "Пользователь с таким email уже существует")
-                return res.json("Пользователь с таким email уже существует")
-            }
-            const user = await User.create({id, name, email, password, role})
-            return res.json(user)
-            //return res.json('ok')
+            console.log("CHECK!!!")
         } catch (e) {
             console.log(e.message)
         }
