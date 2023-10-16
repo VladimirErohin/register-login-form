@@ -7,20 +7,30 @@ class UserController {
         try {
             // //const errors = validationResult(req);
             //
-            // const {id, name, email, password, role} = req.body;
-            //
-            // const candidate = await User.findOne({where: {email}})
-            // if (candidate) {
-            //     console.log("errors --- ", "Пользователь с таким email уже существует")
-            //     return res.json("Пользователь с таким email уже существует")
-            // }
-            // const user = await User.create({id, name, email, password, role})
+            const {id, name, email, password, role} = req.body;
+
+            const hashedPassword = await bcrypt.hash(password, 5);
+
+            const candidate = await User.findOne({where: {email}})
+            if (candidate) {
+                console.log("errors --- ", "Пользователь с таким email уже существует")
+                return res.json("Пользователь с таким email уже существует")
+            }
+             const user = await User.create({id, name, email, password:hashedPassword, role})
+            return res.status(201).json({
+                success:true,
+                message:'The registration ws successfully'
+            })
+
             // return res.json(user)
             // //return res.json('ok')
 
-            console.log("CHECK!!!")
-        } catch (e) {
-            console.log(e.message)
+            //console.log("CHECK!!!")
+        } catch (error) {
+            console.log(error.message)
+            return res.status(500).json({
+                error:error.message
+            })
         }
     }
 
